@@ -17,7 +17,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 
-import userRoutes from "@/routes/user.routes";
+import userRoutes from "./routes/user.routes";
 
 const SERVER_PORT = process.env.SERVER_PORT || 5000;
 

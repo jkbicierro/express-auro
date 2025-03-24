@@ -1,8 +1,8 @@
-import { User } from "../models/user.model";
-import { Request, Response } from "express";
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GetUsers = void 0;
 // Sample Data
-const users: User[] = [
+const users = [
     {
         id: 0,
         name: "John Bicierro",
@@ -22,7 +22,7 @@ const users: User[] = [
         password: "aouhsaodhjoo",
     },
 ];
-
-export const GetUsers = (req: Request, res: Response) => {
+const GetUsers = (req, res) => {
     res.json(users);
 };
+exports.GetUsers = GetUsers;
