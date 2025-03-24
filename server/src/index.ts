@@ -12,14 +12,11 @@
         John Bicierro | https://github.com/jkbicierro
 
 */
-
+require("dotenv").config();
 import express, { Request, Response } from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 
-require("dotenv").config();
-
-// Routes
 import userRoutes from "./routes/user.routes";
 
 const SERVER_PORT = process.env.SERVER_PORT || 5000;
@@ -29,7 +26,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("testadsdsd");
+    res.send("Hello world");
 });
 
 app.use("/api/users", userRoutes);

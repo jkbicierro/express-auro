@@ -5,13 +5,13 @@ import { Request, Response } from "express";
 const users: User[] = [
     {
         id: 0,
-        name: "Test",
-        email: "test@gmail.com",
+        name: "John Bicierro",
+        email: "jbicierro@gbox.adnu.edu.ph",
     },
     {
         id: 1,
-        name: "Test",
-        email: "test@gmail.com",
+        name: "Karl Lumabi",
+        email: "klumabi@gbox.adnu.edu.ph",
     },
 ];
 
