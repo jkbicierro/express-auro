@@ -7,11 +7,19 @@ const users: User[] = [
         id: 0,
         name: "John Bicierro",
         email: "jbicierro@gbox.adnu.edu.ph",
+        password: "aouhsaodhjoo",
     },
     {
         id: 1,
         name: "Karl Lumabi",
         email: "klumabi@gbox.adnu.edu.ph",
+        password: "aouhsaodhjoo",
+    },
+    {
+        id: 2,
+        name: "Mark Jacinto",
+        email: "mjacinto@gbox.adnu.edu.ph",
+        password: "aouhsaodhjoo",
     },
 ];
 
