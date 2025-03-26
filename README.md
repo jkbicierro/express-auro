@@ -1,10 +1,15 @@
-# Server Side (Auro) Documentation
+# express-auro
+
+Features
+
+- typescript
+- drizzle orm + postgresql (supabase)
 
 ```
-# Developer Production
+# developer production
 pnpm run dev
 
-# Build Production
+# build production
 pnpm run build
 pnpm start
 ```

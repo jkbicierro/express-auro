@@ -13,51 +13,20 @@
 */
 
 import { Router } from "express";
+import { Login, Register } from "../controllers/auth.controller";
 const router = Router();
 
-router.post("/auth/login", (req: Request, res: Response) => {
-    try {
-         const { email, password } = req.body;
+/*
+    "email": "johndoe@example.com",
+    "password": "securepassword",
+*/
+router.post("/login", Login);
 
-         if(!email || !password) {
-            return res.status(400).json({ message: "All fields are required" });
-         }
-
-
-    }
-    catch(err)
-    {
-        console.error("[POST] router /auth/login:", err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-})
-
-router.post("/auth/signup", (req: Request, res: Response) => {
-    try {
-        const { name, email, password } = req.body;
-
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
-
-        const createUser = {
-            id: Date.now(),
-            name,
-            email,
-            password,  
-            createdAt: new Date()
-        };
-
-        res.status(201).json({
-            message: "User registered successfully",
-            user: createUser
-        });
-    }
-    catch(err)
-    {
-        console.error("[POST] router /auth/signup:", err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
+/*
+    "name": "test"
+    "email": "johndoe@example.com",
+    "password": "securepassword",
+*/
+router.post("/signup", Register);
 
 export default router;
