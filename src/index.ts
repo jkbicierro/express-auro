@@ -37,7 +37,7 @@ app.get("/", (req: Request, res: Response) => {
 */
 
 app.use("/api/users", userRoutes);
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 app.listen(SERVER_PORT, () =>
     console.log(`Server running on http://localhost:${SERVER_PORT}`),

@@ -1,7 +1,12 @@
-import { GetUsers } from "../controllers/user.controller";
+import {
+    AuthenticateToken,
+    AuthorizeRoles,
+} from "../middleware/auth.middleware";
+import { GetAllUser, GetUser } from "../controllers/user.controller";
 import { Router } from "express";
 const router = Router();
 
-router.get("/", GetUsers);
+router.get("/getalluser", AuthenticateToken, GetAllUser);
+router.get("/getuser", AuthenticateToken, AuthorizeRoles("Admin"), GetUser);
 
 export default router;

@@ -1,6 +1,11 @@
-import { Request, RequestHandler, Response } from "express";
+import { UserSchema } from "@/models/user.model";
+import { RequestHandler } from "express";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
-export const Login: RequestHandler = (req: Request, res: Response): void => {
+// I removed Request & Response data types because RequestHandler has already have it
+export const Login: RequestHandler = (req, res): void => {
     try {
         const { email, password } = req.body;
 
@@ -8,13 +13,32 @@ export const Login: RequestHandler = (req: Request, res: Response): void => {
             res.status(400).json({ message: "All fields are required" });
             return;
         }
+        // To-do: Compare fields (email, password) to actual data for validation
+        const user = UserSchema.find((i) => i.email === email);
+        if (!user) {
+            res.status(401).json({ message: "Invalid email or password" });
+            return;
+        }
+
+        // To-do: Generate JWT token (session, token) for API security purposes
+        const token = jwt.sign(
+            { id: user.id, email: user.email, role: user.role },
+            process.env.JWT_SECRET!,
+            { expiresIn: "1h" }, // Reduce the time for more secured
+        );
+
+        // To-do: Successful info (Send a token and message to the client)
+        res.status(201).json({
+            message: "User logged in successfully",
+            token: token,
+        });
     } catch (err) {
         console.error("[POST] router /auth/login:", err);
         res.status(500).json({ message: "Internal server error" });
     }
 };
 
-export const Register: RequestHandler = (req: Request, res: Response): void => {
+export const Register: RequestHandler = (req, res): void => {
     try {
         const { name, email, password } = req.body;
 
@@ -23,6 +47,9 @@ export const Register: RequestHandler = (req: Request, res: Response): void => {
             return;
         }
 
+        // To-do: Hash password using bcrypt algorithm
+
+        // To-do: Integrate database
         const createUser = {
             id: Date.now(),
             name,
@@ -33,7 +60,6 @@ export const Register: RequestHandler = (req: Request, res: Response): void => {
 
         res.status(201).json({
             message: "User registered successfully",
-            user: createUser,
         });
     } catch (err) {
         console.error("[POST] router /auth/signup:", err);

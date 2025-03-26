@@ -1,28 +1,21 @@
-import { User } from "../models/user.model";
-import { Request, Response } from "express";
+/*
+    Email: jbicierro@gbox.adnu.edu.ph
+    JWT Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiZW1haWwiOiJqYmljaWVycm9AZ2JveC5hZG51LmVkdS5waCIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTc0Mjk2ODc3MCwiZXhwIjoxNzQyOTcyMzcwfQ.Ki6iS0uSuSva8x-DRtRNQCCKJ-CPBhv-PdSw4_WTim4
+*/
+import { User, UserSchema } from "../models/user.model";
+import { Request, RequestHandler, Response } from "express";
 
-// Sample Data
-const users: User[] = [
-    {
-        id: 0,
-        name: "John Bicierro",
-        email: "jbicierro@gbox.adnu.edu.ph",
-        password: "aouhsaodhjoo",
-    },
-    {
-        id: 1,
-        name: "Karl Lumabi",
-        email: "klumabi@gbox.adnu.edu.ph",
-        password: "aouhsaodhjoo",
-    },
-    {
-        id: 2,
-        name: "Mark Jacinto",
-        email: "mjacinto@gbox.adnu.edu.ph",
-        password: "aouhsaodhjoo",
-    },
-];
+export const GetAllUser: RequestHandler = (req, res): void => {
+    res.json(UserSchema);
+};
 
-export const GetUsers = (req: Request, res: Response) => {
-    res.json(users);
+export const GetUser: RequestHandler = (req, res): void => {
+    try {
+        res.status(200).json({
+            message: "User retrieved successfully",
+        });
+    } catch (err) {
+        console.error("[POST] router /api/users:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
 };
