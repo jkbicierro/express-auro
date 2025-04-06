@@ -26,10 +26,7 @@ export const AuthenticateToken = (
     res: Response,
     next: NextFunction,
 ): void => {
-    const header = req.headers["authorization"];
-
-    // Removed the "Bearer" from header
-    const token = header && header.split(" ")[1];
+    const token = req.cookies["token"];
 
     if (!token) {
         res.status(401).json({ message: "Access denied. No token provided." });

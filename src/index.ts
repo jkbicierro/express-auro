@@ -15,7 +15,7 @@
 require("dotenv").config();
 import express, { Request, Response } from "express";
 import cors from "cors";
-import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
@@ -24,7 +24,13 @@ const SERVER_PORT = process.env.SERVER_PORT || 5000;
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true,
+    }),
+);
+app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {
     res.send("API is running");
