@@ -1,11 +1,12 @@
 # express-auro
-a boilerplate for the integration of api
+a backend boilerplate for the integration of api
 
 ## prerequisites
 - node.js
 - npm & pnpm
 
 ## features
+- [ ] type-safe/typescript
 - [ ] authentication support (drizzle + psql-supabase)
 
 ## getting started
