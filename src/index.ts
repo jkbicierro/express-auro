@@ -19,6 +19,7 @@ import cookieParser from "cookie-parser";
 
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
+import ticketRoutes from "./routes/ticket.routes";
 
 const SERVER_PORT = process.env.SERVER_PORT || 5000;
 
@@ -44,6 +45,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/ticket", ticketRoutes);
 
 app.listen(SERVER_PORT, () =>
     console.log(`Server running on http://localhost:${SERVER_PORT}`),

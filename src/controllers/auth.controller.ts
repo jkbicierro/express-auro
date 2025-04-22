@@ -3,13 +3,16 @@
         [Register] Spamming prevention of request (e.g. 5 times in 1 minute)
 */
 import { UserSchema } from "@/models/user.model";
+import { db } from "../db/index";
+import { user_table } from "../db/schema";
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { eq } from "drizzle-orm";
 dotenv.config();
 
 // Removed Request & Response data types because RequestHandler has already have it
-export const Login: RequestHandler = (req, res): void => {
+export const Login: RequestHandler = async (req, res): Promise<void> => {
     try {
         const { email, password } = req.body;
 
@@ -17,13 +20,25 @@ export const Login: RequestHandler = (req, res): void => {
             res.status(400).json({ message: "All fields are required" });
             return;
         }
+
         // Compare fields (email, password) to actual data for validation
-        const user = UserSchema.find(
-            (i) => i.email === email && i.password === password,
-        );
+        const [user] = await db
+            .select()
+            .from(user_table)
+            .where(eq(user_table.email, email))
+            .limit(1);
+
         if (!user) {
             res.status(401).json({
-                message: "You have entered an invalid email or password",
+                message: "You have entered an invalid email",
+            });
+            return;
+        }
+
+        // Use bcrypt here (Temporary)
+        if (user.password != password) {
+            res.status(401).json({
+                message: "You have entered an password",
             });
             return;
         }
@@ -53,7 +68,7 @@ export const Login: RequestHandler = (req, res): void => {
     }
 };
 
-export const Register: RequestHandler = (req, res): void => {
+export const Register: RequestHandler = async (req, res): Promise<void> => {
     try {
         const { name, email, password } = req.body;
 
@@ -65,13 +80,12 @@ export const Register: RequestHandler = (req, res): void => {
         // To-do: Hash password using bcrypt algorithm
 
         // To-do: Integrate database
-        const createUser = {
-            id: Date.now(),
-            name,
-            email,
-            password,
-            createdAt: new Date(),
-        };
+        await db.insert(user_table).values({
+            name: name,
+            email: email,
+            password: password,
+            role: "User",
+        });
 
         res.status(201).json({
             message: "User registered successfully",
