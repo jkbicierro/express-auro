@@ -1,15 +1,31 @@
 # express-auro
+a backend boilerplate for the integration of api
 
-Features
+## prerequisites
+- node.js
+- npm & pnpm
 
-- typescript
-- drizzle orm + postgresql (supabase)
+## features
+- [ ] type-safe/typescript
+- [ ] authentication support (drizzle + psql-supabase)
 
+## getting started
+### install dependencies
+```bash
+npm i # pnpm i
 ```
-# developer production
-pnpm run dev
 
-# build production
-pnpm run build
-pnpm start
+### build production
+```bash
+npm run build # pnpm run build
+npm start # pnpm start
 ```
+
+### development server
+```bash
+npm run dev # pnpm run dev
+```
+
+## references
+
+
