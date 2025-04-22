@@ -14,7 +14,7 @@ export const CreateTicket: RequestHandler = async (req, res): Promise<void> => {
 
         // Save to database
         await db.insert(ticket_table).values({
-            referenceId: reference_id,
+            reference_id: reference_id,
             title: title,
             type: type,
             status: "For Approval",
@@ -66,10 +66,15 @@ export const ShowTicket: RequestHandler = (req, res): void => {
 };
 
 // GET: Show Tickets
-export const ShowTicketAll: RequestHandler = (req, res): void => {
+export const ShowTicketAll: RequestHandler = async (
+    req,
+    res,
+): Promise<void> => {
     try {
+        const tickets = await db.select().from(ticket_table);
         res.status(201).json({
-            message: "Ticket retrieved successfully",
+            message: "All ticket retrieved successfully",
+            tickets,
         });
     } catch (err) {
         console.error("[GET] /ticket/show:", err);
