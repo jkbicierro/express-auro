@@ -43,7 +43,7 @@ app.get("/", (req: Request, res: Response) => {
         - For post http request you need fields to fill in (body/raw/json)
 */
 
-app.use("/api/users", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/ticket", ticketRoutes);
 

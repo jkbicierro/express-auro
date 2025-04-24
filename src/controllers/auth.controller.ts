@@ -95,3 +95,31 @@ export const Register: RequestHandler = async (req, res): Promise<void> => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const Logout: RequestHandler = async (req, res): Promise<void> => {
+    try {
+        res.cookie("token", "", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            expires: new Date(0),
+            sameSite: "lax",
+        });
+        res.status(201).json({
+            message: "Logged out successfully. Cookie deleted",
+        });
+    } catch (err) {
+        console.error("[GET] /auth/signup:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+export const Session: RequestHandler = async (req, res): Promise<void> => {
+    try {
+        res.status(201).json({
+            message: "Token is validated",
+        });
+    } catch (err) {
+        console.error("[GET] /auth/signup:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};

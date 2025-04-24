@@ -13,7 +13,14 @@
 */
 
 import { Router } from "express";
-import { Login, Register } from "../controllers/auth.controller";
+import {
+    Login,
+    Logout,
+    Register,
+    Session,
+} from "../controllers/auth.controller";
+import { AuthenticateToken } from "@/middleware/auth.middleware";
+
 const router = Router();
 
 /*
@@ -28,5 +35,9 @@ router.post("/login", Login);
     "password": "securepassword",
 */
 router.post("/signup", Register);
+
+router.post("/logout", Logout);
+
+router.get("/session", AuthenticateToken, Session);
 
 export default router;

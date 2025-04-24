@@ -7,6 +7,6 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/getalluser", AuthenticateToken, GetAllUser);
-router.get("/getuser", AuthenticateToken, AuthorizeRoles("Admin"), GetUser);
+router.get("/getuser", AuthenticateToken, GetUser);
 
 export default router;
