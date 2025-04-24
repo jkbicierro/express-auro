@@ -102,7 +102,7 @@ export const DeclineTicket: RequestHandler = async (
     }
 };
 
-// GET: Show 1 ticket
+// POST: Show 1 ticket
 export const ShowTicket: RequestHandler = async (req, res): Promise<void> => {
     try {
         const { ticket_id } = req.body;
@@ -121,7 +121,7 @@ export const ShowTicket: RequestHandler = async (req, res): Promise<void> => {
             ticket: ticket,
         });
     } catch (err) {
-        console.error("[GET] /ticket/show:", err);
+        console.error("[POST] /ticket/show:", err);
         res.status(500).json({ message: "Internal server error" });
     }
 };

@@ -13,7 +13,7 @@ router.post("/create", CreateTicket);
 router.put("/approve", ApproveTicket);
 router.put("/decline", DeclineTicket);
 
-router.get("/show", ShowTicket);
+router.post("/show", ShowTicket);
 router.get("/showall", ShowTicketAll);
 
 export default router;
