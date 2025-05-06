@@ -53,9 +53,9 @@ export const Login: RequestHandler = async (req, res): Promise<void> => {
         // Set a cookie in client side
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
+            sameSite: "none",
             maxAge: 3600000,
-            sameSite: "lax",
         });
 
         // Successful info (Send a token and message to the client)
@@ -100,9 +100,9 @@ export const Logout: RequestHandler = async (req, res): Promise<void> => {
     try {
         res.cookie("token", "", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
+            sameSite: "none",
             expires: new Date(0),
-            sameSite: "lax",
         });
         res.status(201).json({
             message: "Logged out successfully. Cookie deleted",
