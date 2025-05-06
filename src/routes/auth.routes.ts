@@ -19,7 +19,7 @@ import {
     Register,
     Session,
 } from "../controllers/auth.controller";
-import { AuthenticateToken } from "@/middleware/auth.middleware";
+import { AuthenticateToken } from "../middleware/auth.middleware";
 
 const router = Router();
 

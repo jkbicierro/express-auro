@@ -6,7 +6,7 @@
 import { User, UserSchema } from "../models/user.model";
 import { RequestHandler } from "express";
 import dotenv from "dotenv";
-import { AuthRequest } from "@/middleware/auth.middleware";
+import { AuthRequest } from "../middleware/auth.middleware";
 dotenv.config();
 
 export const GetAllUser: RequestHandler = (req, res): void => {

@@ -8,8 +8,8 @@
         [GET] ShowTicketAll (-)
 */
 
-import { db } from "@/db";
-import { ticket_table } from "@/db/schema";
+import { db } from "../db";
+import { ticket_table } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { RequestHandler } from "express";
 

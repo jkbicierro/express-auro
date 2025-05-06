@@ -2,7 +2,7 @@
     To-do: 
         [Register] Spamming prevention of request (e.g. 5 times in 1 minute)
 */
-import { UserSchema } from "@/models/user.model";
+import { UserSchema } from "../models/user.model";
 import { db } from "../db/index";
 import { user_table } from "../db/schema";
 import { RequestHandler } from "express";
