@@ -181,14 +181,16 @@ export const ShowTicketAll: RequestHandler = async (
 // DELETE: Delete Ticket
 export const DeleteTicket: RequestHandler = async (req, res): Promise<void> => {
     try {
-        const { ticket_id } = req.body;
+        const { reference_id } = req.body;
 
-        if (!ticket_id) {
+        if (!reference_id) {
             res.status(400).json({ message: "Field are required" });
             return;
         }
 
-        await db.delete(ticket_table).where(eq(ticket_table.id, ticket_id));
+        await db
+            .delete(ticket_table)
+            .where(eq(ticket_table.reference_id, reference_id));
 
         res.status(201).json({
             message: "ticket destroyed successfully",
