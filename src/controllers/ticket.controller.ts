@@ -13,6 +13,41 @@ import { ticket_table } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { RequestHandler } from "express";
 
+// Specific Department for Generating Ticket
+export const CreateMeetingTicket: RequestHandler = async (
+    req,
+    res,
+): Promise<void> => {
+    try {
+        const { reference_id, title } = req.body;
+
+        if (!reference_id || !title) {
+            res.status(400).json({ message: "All fields are required" });
+            return;
+        }
+
+        // Save to database
+        const [ticket] = await db
+            .insert(ticket_table)
+            .values({
+                reference_id: reference_id,
+                title: title,
+                type: "Meeting/Attendance",
+                status: "For Approval",
+                department: "Secretariat",
+            })
+            .returning();
+
+        res.status(201).json({
+            message: "Ticket created successfully",
+            ticketId: ticket.id,
+        });
+    } catch (err) {
+        console.error("[POST] /ticket/create:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 // POST: Create Approval Ticket
 export const CreateTicket: RequestHandler = async (req, res): Promise<void> => {
     try {

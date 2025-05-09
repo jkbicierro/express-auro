@@ -25,16 +25,30 @@ const SERVER_PORT = process.env.SERVER_PORT || 5000;
 
 const app = express();
 app.use(express.json());
+
+const whitelist = [
+    process.env.CLIENT_URL,
+    "https://attendance-and-notes-system.netlify.app",
+    "http://localhost:3000",
+];
+
 app.use(
     cors({
-        origin: process.env.CLIENT_URL,
+        origin: function (origin, callback) {
+            if (whitelist.indexOf(origin) !== -1 || !origin) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
         credentials: true,
     }),
 );
+
 app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("API is running");
+    res.send("Server is currently running. Ask administrator for access.");
 });
 
 /*

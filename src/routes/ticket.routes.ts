@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
     ApproveTicket,
+    CreateMeetingTicket,
     CreateTicket,
     DeclineTicket,
     ShowTicket,
@@ -8,7 +9,9 @@ import {
 } from "../controllers/ticket.controller";
 const router = Router();
 
-router.post("/create", CreateTicket);
+// Specific Department for Generating Ticket
+// router.post("/create", CreateTicket); // General Ticket
+router.post("/create/mnas", CreateMeetingTicket);
 
 router.put("/approve", ApproveTicket);
 router.put("/decline", DeclineTicket);
