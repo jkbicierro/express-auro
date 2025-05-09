@@ -177,3 +177,24 @@ export const ShowTicketAll: RequestHandler = async (
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+// DELETE: Delete Ticket
+export const DeleteTicket: RequestHandler = async (req, res): Promise<void> => {
+    try {
+        const { ticket_id } = req.body;
+
+        if (!ticket_id) {
+            res.status(400).json({ message: "Field are required" });
+            return;
+        }
+
+        await db.delete(ticket_table).where(eq(ticket_table.id, ticket_id));
+
+        res.status(201).json({
+            message: "ticket destroyed successfully",
+        });
+    } catch (err) {
+        console.error("[GET] /ticket/delete:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};

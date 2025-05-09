@@ -4,6 +4,7 @@ import {
     CreateMeetingTicket,
     CreateTicket,
     DeclineTicket,
+    DeleteTicket,
     ShowTicket,
     ShowTicketAll,
 } from "../controllers/ticket.controller";
@@ -18,5 +19,7 @@ router.put("/decline", DeclineTicket);
 
 router.post("/show", ShowTicket);
 router.get("/showall", ShowTicketAll);
+
+router.delete("/delete", DeleteTicket);
 
 export default router;
