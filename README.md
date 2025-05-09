@@ -26,6 +26,9 @@ npm start # pnpm start
 npm run dev # pnpm run dev
 ```
 
-## references
-
+## api references
+### ticket
+| Method | Url | Fields | Description
+| --- | --- | --- | --- |
+| POST | /api/ticket/create/nmas | `reference_id`: string, `title`: string, `type` (1 meeting 2 attendance): string | edit this
 
