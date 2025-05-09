@@ -188,12 +188,23 @@ export const DeleteTicket: RequestHandler = async (req, res): Promise<void> => {
             return;
         }
 
+        const existingTicket = await db
+            .select()
+            .from(ticket_table)
+            .where(eq(ticket_table.reference_id, reference_id))
+            .limit(1);
+
+        if (existingTicket.length === 0) {
+            res.status(404).json({ message: "Ticket not found" });
+            return;
+        }
+
         await db
             .delete(ticket_table)
             .where(eq(ticket_table.reference_id, reference_id));
 
-        res.status(201).json({
-            message: "ticket destroyed successfully",
+        res.status(200).json({
+            message: "Ticket destroyed successfully",
         });
     } catch (err) {
         console.error("[GET] /ticket/delete:", err);
