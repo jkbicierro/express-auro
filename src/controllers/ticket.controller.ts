@@ -13,7 +13,7 @@ import { ticket_table } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { RequestHandler } from "express";
 
-// Specific Department for Generating Ticket
+// POST: Specific Department for Generating Ticket
 export const CreateMeetingTicket: RequestHandler = async (
     req,
     res,
@@ -22,11 +22,13 @@ export const CreateMeetingTicket: RequestHandler = async (
         const { reference_id, title } = req.body;
 
         if (!reference_id || !title) {
-            res.status(400).json({ message: "All fields are required" });
+            res.status(400).json({
+                message:
+                    "All fields are required. Ask administrator for access.",
+            });
             return;
         }
 
-        // Save to database
         const [ticket] = await db
             .insert(ticket_table)
             .values({
@@ -48,8 +50,8 @@ export const CreateMeetingTicket: RequestHandler = async (
     }
 };
 
-// POST: Create Approval Ticket
-export const CreateTicket: RequestHandler = async (req, res): Promise<void> => {
+// POST: Create Default Ticket
+/*export const CreateTicket: RequestHandler = async (req, res): Promise<void> => {
     try {
         const { reference_id, title, type, department } = req.body;
 
@@ -58,7 +60,6 @@ export const CreateTicket: RequestHandler = async (req, res): Promise<void> => {
             return;
         }
 
-        // Save to database
         await db.insert(ticket_table).values({
             reference_id: reference_id,
             title: title,
@@ -74,7 +75,7 @@ export const CreateTicket: RequestHandler = async (req, res): Promise<void> => {
         console.error("[POST] /ticket/create:", err);
         res.status(500).json({ message: "Internal server error" });
     }
-};
+};*/
 
 // PUT: Approve Ticket
 export const ApproveTicket: RequestHandler = async (
@@ -82,7 +83,6 @@ export const ApproveTicket: RequestHandler = async (
     res,
 ): Promise<void> => {
     try {
-        // Status: 0: Declined | 1: Approved
         const { ticket_id } = req.body;
 
         if (!ticket_id) {
@@ -90,13 +90,12 @@ export const ApproveTicket: RequestHandler = async (
             return;
         }
 
-        // Save to database
         await db
             .update(ticket_table)
             .set({ status: "Approved" })
             .where(eq(ticket_table.id, ticket_id));
 
-        // Create Ticket Logs
+        // Todo: Create Ticket Logs
 
         res.status(201).json({
             message: "Ticket approved successfully",
@@ -120,13 +119,12 @@ export const DeclineTicket: RequestHandler = async (
             return;
         }
 
-        // Save to database
         await db
             .update(ticket_table)
             .set({ status: "Declined" })
             .where(eq(ticket_table.id, ticket_id));
 
-        // Create Ticket Logs
+        // Todo: Create Ticket Logs
 
         res.status(201).json({
             message: "Ticket declined successfully",
@@ -137,7 +135,7 @@ export const DeclineTicket: RequestHandler = async (
     }
 };
 
-// POST: Show 1 ticket
+// POST: Show ticket
 export const ShowTicket: RequestHandler = async (req, res): Promise<void> => {
     try {
         const { ticket_id } = req.body;
@@ -168,12 +166,48 @@ export const ShowTicketAll: RequestHandler = async (
 ): Promise<void> => {
     try {
         const tickets = await db.select().from(ticket_table);
+
         res.status(201).json({
             message: "All ticket retrieved successfully",
             tickets,
         });
     } catch (err) {
         console.error("[GET] /ticket/show:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+// POST: Show Ticket Status
+export const ShowTicketStatus: RequestHandler = async (
+    req,
+    res,
+): Promise<void> => {
+    try {
+        const { reference_id } = req.body;
+
+        if (!reference_id) {
+            res.status(400).json({
+                message: "Field are required. Ask administrator for access.",
+            });
+            return;
+        }
+
+        const ticket_status = await db
+            .select({ status: ticket_table.status })
+            .from(ticket_table)
+            .where(eq(ticket_table.reference_id, reference_id));
+
+        if (!ticket_status.length) {
+            res.status(404).json({ message: "Ticket not found" });
+            return;
+        }
+
+        res.status(201).json({
+            message: "Ticket status retrieved successfully",
+            ticket: ticket_status,
+        });
+    } catch (err) {
+        console.error("[POST] /ticket/show:", err);
         res.status(500).json({ message: "Internal server error" });
     }
 };
@@ -188,13 +222,13 @@ export const DeleteTicket: RequestHandler = async (req, res): Promise<void> => {
             return;
         }
 
-        const existingTicket = await db
+        const ticket = await db
             .select()
             .from(ticket_table)
             .where(eq(ticket_table.reference_id, reference_id))
             .limit(1);
 
-        if (existingTicket.length === 0) {
+        if (!ticket.length) {
             res.status(404).json({ message: "Ticket not found" });
             return;
         }

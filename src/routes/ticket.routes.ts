@@ -2,11 +2,11 @@ import { Router } from "express";
 import {
     ApproveTicket,
     CreateMeetingTicket,
-    CreateTicket,
     DeclineTicket,
     DeleteTicket,
     ShowTicket,
     ShowTicketAll,
+    ShowTicketStatus,
 } from "../controllers/ticket.controller";
 const router = Router();
 
@@ -17,6 +17,7 @@ router.post("/create/mnas", CreateMeetingTicket);
 router.put("/approve", ApproveTicket);
 router.put("/decline", DeclineTicket);
 
+router.post("/status", ShowTicketStatus);
 router.post("/show", ShowTicket);
 router.get("/showall", ShowTicketAll);
 
