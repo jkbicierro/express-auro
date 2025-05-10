@@ -23,7 +23,7 @@ export const ticket_table = pgTable("tickets", {
 
 export const ticketlogs_table = pgTable("ticket_logs", {
     id: serial("id").primaryKey(),
-    ticket_id: integer("ticket_id")
+    ticket_id: text("ticket_id")
         .notNull()
         .references(() => ticket_table.id, { onDelete: "cascade" }),
     department: text("department").notNull(),
