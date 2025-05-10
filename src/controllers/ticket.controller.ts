@@ -12,6 +12,7 @@ import { db } from "../db";
 import { ticket_table } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { RequestHandler } from "express";
+import { v4 as uuidv4 } from "uuid";
 
 // POST: Specific Department for Generating Ticket
 export const CreateMeetingTicket: RequestHandler = async (
@@ -29,9 +30,12 @@ export const CreateMeetingTicket: RequestHandler = async (
             return;
         }
 
+        const ticketId = uuidv4();
+
         const [ticket] = await db
             .insert(ticket_table)
             .values({
+                id: ticketId,
                 reference_id: reference_id,
                 title: title,
                 type: "Meeting/Attendance",

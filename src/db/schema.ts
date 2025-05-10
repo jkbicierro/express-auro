@@ -11,7 +11,7 @@ export const user_table = pgTable("users", {
 });
 
 export const ticket_table = pgTable("tickets", {
-    id: serial("id").primaryKey(),
+    id: text("id").primaryKey(),
     reference_id: text("reference_id").notNull(),
     title: text("title").notNull(),
     type: text("type").notNull(),
