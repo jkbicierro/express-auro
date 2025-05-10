@@ -149,6 +149,11 @@ export const ShowTicket: RequestHandler = async (req, res): Promise<void> => {
             .from(ticket_table)
             .where(eq(ticket_table.id, ticket_id));
 
+        if (!ticket.length) {
+            res.status(404).json({ message: "Ticket not found" });
+            return;
+        }
+
         res.status(201).json({
             message: "Ticket retrieved successfully",
             ticket: ticket,
