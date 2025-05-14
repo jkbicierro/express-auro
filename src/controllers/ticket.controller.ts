@@ -252,7 +252,8 @@ export const ShowTicketStatus: RequestHandler = async (
 
         res.status(201).json({
             message: "Ticket status retrieved successfully",
-            ticket: ticket_status,
+            status: ticket_status,
+            remarks: "Ask administrator. Dynamic fetching required",
         });
     } catch (err) {
         console.error("[POST] /ticket/show:", err);
