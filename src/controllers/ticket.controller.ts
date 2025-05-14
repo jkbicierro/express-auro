@@ -54,6 +54,45 @@ export const CreateMeetingTicket: RequestHandler = async (
     }
 };
 
+export const CreateBudgetTicket: RequestHandler = async (
+    req,
+    res,
+): Promise<void> => {
+    try {
+        const { reference_id, title } = req.body;
+
+        if (!reference_id || !title) {
+            res.status(400).json({
+                message:
+                    "All fields are required. Ask administrator for access.",
+            });
+            return;
+        }
+
+        const ticketId = uuidv4();
+
+        const [ticket] = await db
+            .insert(ticket_table)
+            .values({
+                id: ticketId,
+                reference_id: reference_id,
+                title: title,
+                type: "Budget",
+                status: "For Approval",
+                department: "Budget Office",
+            })
+            .returning();
+
+        res.status(201).json({
+            message: "Ticket created successfully",
+            ticketId: ticket.id,
+        });
+    } catch (err) {
+        console.error("[POST] /ticket/create:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 // POST: Create Default Ticket
 /*export const CreateTicket: RequestHandler = async (req, res): Promise<void> => {
     try {
