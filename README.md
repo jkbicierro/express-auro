@@ -27,8 +27,16 @@ npm run dev # pnpm run dev
 ```
 
 ## api references
-### ticket
-| Method | Url | Fields | Description
-| --- | --- | --- | --- |
-| POST | /api/ticket/create/nmas | `reference_id`: string, `title`: string, `type` (1 meeting 2 attendance): string | edit this
+### auth
 
+| Method | Url | Fields | Response
+| --- | --- | --- | --- |
+| - | - | - | -
+
+### ticket
+| Method | Url | Fields | Response
+| --- | --- | --- | --- |
+| POST | /api/ticket/create/nmas | `reference_id: string` `title: string` | `message: string` `ticket_id: string`
+| POST | /api/ticket/create/budget | `reference_id: string` `title: string` | `message: string` `ticket_id: string`
+| POST | /api/ticket/status | `reference_id: string` | `ticket.status: string` `ticket.remarks: string`
+| DELETE | /api/ticket/delete | `reference_id: string` | `message: string`
