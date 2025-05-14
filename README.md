@@ -38,5 +38,5 @@ npm run dev # pnpm run dev
 | --- | --- | --- | --- |
 | POST | /api/ticket/create/nmas | `reference_id: string` `title: string` | `message: string` `ticket_id: string`
 | POST | /api/ticket/create/budget | `reference_id: string` `title: string` | `message: string` `ticket_id: string`
-| POST | /api/ticket/status | `reference_id: string` | `ticket.status: string` `ticket.remarks: string`
+| POST | /api/ticket/status | `reference_id: string` | `message: string` `ticket.status: string` `ticket.remarks: string`
 | DELETE | /api/ticket/delete | `reference_id: string` | `message: string`
