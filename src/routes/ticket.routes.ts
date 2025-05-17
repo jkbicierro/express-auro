@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
     ApproveTicket,
+    CreateAnnouncementTicket,
     CreateBudgetTicket,
     CreateMeetingTicket,
     DeclineTicket,
@@ -17,6 +18,7 @@ router.post("/show", ShowTicket);
 router.get("/showall", ShowTicketAll);
 
 // API for Developers
+router.post("/create/announcement", CreateAnnouncementTicket);
 router.post("/create/mnas", CreateMeetingTicket);
 router.post("/create/budget", CreateBudgetTicket);
 router.post("/status", ShowTicketStatus);

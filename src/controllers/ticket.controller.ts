@@ -15,6 +15,46 @@ import { RequestHandler } from "express";
 import { v4 as uuidv4 } from "uuid";
 
 // POST: Specific Department for Generating Ticket
+export const CreateAnnouncementTicket: RequestHandler = async (
+    req,
+    res,
+): Promise<void> => {
+    try {
+        const { reference_id, title, reference_link } = req.body;
+
+        if (!reference_id || !title || !reference_link) {
+            res.status(400).json({
+                message:
+                    "All fields are required. Ask administrator for access.",
+            });
+            return;
+        }
+
+        const ticketId = uuidv4();
+
+        const [ticket] = await db
+            .insert(ticket_table)
+            .values({
+                id: ticketId,
+                reference_id: reference_id,
+                reference_link: reference_link,
+                title: title,
+                type: "Announcement",
+                status: "For Approval",
+                department: "Public Relations Office",
+            })
+            .returning();
+
+        res.status(201).json({
+            message: "Ticket created successfully",
+            ticketId: ticket.id,
+        });
+    } catch (err) {
+        console.error("[POST] /ticket/create:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 export const CreateMeetingTicket: RequestHandler = async (
     req,
     res,
