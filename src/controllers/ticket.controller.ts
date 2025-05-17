@@ -159,7 +159,7 @@ export const DeclineTicket: RequestHandler = async (
     try {
         const { ticket_id, remarks } = req.body;
 
-        if (!ticket_id || !remarks) {
+        if (!ticket_id) {
             res.status(400).json({ message: "All Fields are required" });
             return;
         }
