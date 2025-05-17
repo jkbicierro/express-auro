@@ -164,12 +164,15 @@ export const DeclineTicket: RequestHandler = async (
             return;
         }
 
-        await db
+        const ticket = await db
             .update(ticket_table)
             .set({ status: "Declined", remarks: remarks })
             .where(eq(ticket_table.id, ticket_id));
 
-        // Todo: Create Ticket Logs
+        if (!ticket.length) {
+            res.status(404).json({ message: "Ticket not found" });
+            return;
+        }
 
         res.status(201).json({
             message: "Ticket declined successfully",
