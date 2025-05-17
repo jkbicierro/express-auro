@@ -20,9 +20,9 @@ export const CreateMeetingTicket: RequestHandler = async (
     res,
 ): Promise<void> => {
     try {
-        const { reference_id, title } = req.body;
+        const { reference_id, title, reference_link } = req.body;
 
-        if (!reference_id || !title) {
+        if (!reference_id || !title || !reference_link) {
             res.status(400).json({
                 message:
                     "All fields are required. Ask administrator for access.",
@@ -37,6 +37,7 @@ export const CreateMeetingTicket: RequestHandler = async (
             .values({
                 id: ticketId,
                 reference_id: reference_id,
+                reference_link: reference_link,
                 title: title,
                 type: "Meeting/Attendance",
                 status: "For Approval",
@@ -59,9 +60,9 @@ export const CreateBudgetTicket: RequestHandler = async (
     res,
 ): Promise<void> => {
     try {
-        const { reference_id, title } = req.body;
+        const { reference_id, title, reference_link } = req.body;
 
-        if (!reference_id || !title) {
+        if (!reference_id || !title || !reference_link) {
             res.status(400).json({
                 message:
                     "All fields are required. Ask administrator for access.",
@@ -76,6 +77,7 @@ export const CreateBudgetTicket: RequestHandler = async (
             .values({
                 id: ticketId,
                 reference_id: reference_id,
+                reference_link: reference_link,
                 title: title,
                 type: "Budget",
                 status: "For Approval",
@@ -240,20 +242,23 @@ export const ShowTicketStatus: RequestHandler = async (
             return;
         }
 
-        const ticket_status = await db
-            .select({ status: ticket_table.status })
+        const [ticket] = await db
+            .select({
+                status: ticket_table.status,
+                remarks: ticket_table.remarks,
+            })
             .from(ticket_table)
             .where(eq(ticket_table.reference_id, reference_id));
 
-        if (!ticket_status.length) {
+        if (!ticket) {
             res.status(404).json({ message: "Ticket not found" });
             return;
         }
 
         res.status(201).json({
             message: "Ticket status retrieved successfully",
-            status: ticket_status,
-            remarks: "Ask administrator. Dynamic fetching required",
+            status: ticket.status,
+            remarks: ticket.remarks,
         });
     } catch (err) {
         console.error("[POST] /ticket/show:", err);
