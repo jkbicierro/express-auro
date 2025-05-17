@@ -157,16 +157,16 @@ export const DeclineTicket: RequestHandler = async (
     res,
 ): Promise<void> => {
     try {
-        const { ticket_id } = req.body;
+        const { ticket_id, remarks } = req.body;
 
-        if (!ticket_id) {
+        if (!ticket_id || !remarks) {
             res.status(400).json({ message: "All Fields are required" });
             return;
         }
 
         await db
             .update(ticket_table)
-            .set({ status: "Declined" })
+            .set({ status: "Declined", remarks: remarks })
             .where(eq(ticket_table.id, ticket_id));
 
         // Todo: Create Ticket Logs
