@@ -209,7 +209,7 @@ export const DeclineTicket: RequestHandler = async (
             .set({ status: "Declined", remarks: remarks })
             .where(eq(ticket_table.id, ticket_id));
 
-        if (!ticket.length) {
+        if (!ticket) {
             res.status(404).json({ message: "Ticket not found" });
             return;
         }
